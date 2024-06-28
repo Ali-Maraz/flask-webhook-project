@@ -1,24 +1,20 @@
-# Use the official lightweight Python image.
-# https://hub.docker.com/_/python
-FROM python:3.9-slim
+# Use the official Python image from the Docker Hub
+FROM python:3.9
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Set work directory
+# Set the working directory to /app
 WORKDIR /app
 
-# Install dependencies
-COPY requirements.txt /app/
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-# Copy project
-COPY . /app/
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose the port Flask is running on
-EXPOSE 5000
+# Make port 80 available to the world outside this container
+EXPOSE 80
 
-# Run the Flask app
-CMD ["python", "графиг.py"]
+# Define environment variable
+ENV NAME World
+
+# Run app.py when the container launches
+CMD ["gunicorn", "-b", "0.0.0.0:80", "графиг:app"]
