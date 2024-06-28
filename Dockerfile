@@ -1,7 +1,7 @@
-# Use the official Python image from the Docker Hub
-FROM python:3.9
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
 
-# Set the working directory to /app
+# Set the working directory in the container
 WORKDIR /app
 
 # Copy the current directory contents into the container at /app
@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 80
 
 # Define environment variable
-ENV NAME World
+ENV NAME Flask-App
 
 # Run app.py when the container launches
-CMD ["gunicorn", "-b", "0.0.0.0:80", "графиг:app"]
+CMD ["python", "app.py"]
